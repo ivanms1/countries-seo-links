@@ -81,7 +81,8 @@ export const getStaticPaths = async () => {
     paths: data?.map((country: { name: { common: string } }) => ({
       params: {
         name:
-          country?.name?.common?.toLocaleLowerCase().replaceAll(" ", "-") ?? "",
+          country?.name?.common?.toLocaleLowerCase()?.replaceAll(" ", "-") ??
+          "",
       },
     })),
     fallback: true,
