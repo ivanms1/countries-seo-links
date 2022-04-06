@@ -53,16 +53,24 @@ const Country = ({ country }: Country) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(
-    `https://restcountries.com/v3.1/name/${params?.name}`
-  );
+  try {
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${params?.name}`
+    );
 
-  const results = await res.json();
-  return {
-    props: {
-      country: results?.[0] ?? null,
-    },
-  };
+    const results = await res.json();
+    return {
+      props: {
+        country: results?.[0] ?? null,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        country: null,
+      },
+    };
+  }
 };
 
 export const getStaticPaths = async () => {
