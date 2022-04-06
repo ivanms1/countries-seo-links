@@ -80,11 +80,6 @@ export const getStaticPaths = async () => {
 
   return {
     paths: data?.map((country: { name: { common: string } }) => {
-      console.log(
-        "country?.name?.common",
-        country?.name?.common?.toLowerCase()
-      );
-
       if (!country?.name?.common) {
         return {
           params: {
@@ -94,7 +89,7 @@ export const getStaticPaths = async () => {
       }
       return {
         params: {
-          name: country?.name?.common?.toLowerCase()?.replaceAll(" ", "-"),
+          name: country?.name?.common?.toLowerCase()?.replace(/ /g, "-"),
         },
       };
     }),
