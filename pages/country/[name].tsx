@@ -78,13 +78,16 @@ export const getStaticPaths = async () => {
 
   const data = await res.json();
   return {
-    paths: data?.map((country: { name: { common: string } }) => ({
-      params: {
-        name:
-          country?.name?.common?.toLocaleLowerCase()?.replaceAll(" ", "-") ??
-          "",
-      },
-    })),
+    paths: data?.map((country: { name: { common: string } }) => {
+      console.log("country?.name?.common", country?.name?.common);
+      return {
+        params: {
+          name:
+            country?.name?.common?.toLocaleLowerCase()?.replaceAll(" ", "-") ??
+            "",
+        },
+      };
+    }),
     fallback: true,
   };
 };
