@@ -77,14 +77,23 @@ export const getStaticPaths = async () => {
   const res = await fetch("https://restcountries.com/v3.1/all");
 
   const data = await res.json();
+
   return {
     paths: data?.map((country: { name: { common: string } }) => {
       console.log("country?.name?.common", country?.name?.common);
+
+      if (!country?.name?.common) {
+        return {
+          params: {
+            name: "",
+          },
+        };
+      }
       return {
         params: {
-          name:
-            country?.name?.common?.toLocaleLowerCase()?.replaceAll(" ", "-") ??
-            "",
+          name: country?.name?.common
+            ?.toLocaleLowerCase()
+            ?.replaceAll(" ", "-"),
         },
       };
     }),
