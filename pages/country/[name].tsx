@@ -16,9 +16,16 @@ interface Country {
 }
 
 const Country = ({ country }: Country) => {
+  if (!country) {
+    return (
+      <div>
+        <p>Country not found</p>
+      </div>
+    );
+  }
   return (
     <div>
-      <p>{country?.name}</p>
+      <p>{country?.name?.common}</p>
       <Image
         alt={country.name.common}
         src={country.flags.png}
@@ -53,7 +60,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const results = await res.json();
   return {
     props: {
-      country: results?.[0],
+      country: results?.[0] ?? null,
     },
   };
 };
@@ -62,11 +69,11 @@ export const getStaticPaths = async () => {
   const res = await fetch("https://restcountries.com/v3.1/all");
 
   const data = await res.json();
-  console.log("data", data);
   return {
     paths: data?.map((country: { name: { common: string } }) => ({
       params: {
-        name: country.name.common.toLocaleLowerCase().replaceAll(" ", "-"),
+        name:
+          country?.name?.common?.toLocaleLowerCase().replaceAll(" ", "-") ?? "",
       },
     })),
     fallback: true,
