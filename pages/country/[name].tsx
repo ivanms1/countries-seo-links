@@ -89,7 +89,7 @@ export const getStaticPaths = async () => {
       }
       return {
         params: {
-          name: country?.name?.common?.toLowerCase()?.replace(/ /g, "-"),
+          name: country?.name?.common?.toLowerCase()?.replace(/ .*/, ""),
         },
       };
     }),
